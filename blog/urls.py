@@ -3,6 +3,8 @@ from blog.views import(
     index, ola, post_show, PostDetailView, get_all_posts, get_post, PostCreateView, create_post, PostListView, SobreTemplateView,)
 
 urlpatterns = [
+    path('', include('accounts.urls')), # rotas personalizadas como accounts/signup
+    path('accounts/', include('django.contrib.auth.urls')), # rotas fornecidas pelo Django
     path('', index, name= "home"),
     path('index/', index, name= "index"),
     path('ola/', ola, name= "ola"),
