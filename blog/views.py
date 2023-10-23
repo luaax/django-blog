@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render,  get_object_or_404
 from django.views.generic import DetailView, ListView, TemplateView
 import json
@@ -37,6 +38,7 @@ def get_all_posts(request):
     json_data = json.dumps(data, indent=1, cls=DjangoJSONEncoder)
     response = HttpResponse(json_data, content_type='application/json')
     response['Access-Control-Allow-Origin'] = '*' # requisição de qualquer origem
+    
     return response
 
 def get_post(request, post_id):
@@ -68,6 +70,11 @@ class PostCreateView(CreateView):
     # success_url = reverse_lazy('posts_list')
     success_url = reverse_lazy('posts_all') # modifiquei para ir direto no template da aula do dia 20/09
     form_class = PostModelForm
+    success_message = 'Postagem salva com sucesso.'
+
+def form_valid(self, request, *args, **kwargs):
+    messages.success(self.request, self.success_message)
+    return super(PostCreateView, self).form_valid(request, *args, **kwargs)
 
 @csrf_exempt
 def create_post(request):
