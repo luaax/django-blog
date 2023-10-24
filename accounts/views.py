@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 User = get_user_model() # obtém o model padrão para usuários do Django
 from accounts.forms import AccountSignupForm # importa o form de registro
+
 class AccountCreateView(CreateView):
     model = User # conecta o model a view
     template_name = 'registration/signup_form.html' # template para o form HTML
