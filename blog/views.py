@@ -124,16 +124,22 @@ class SobreTemplateView(TemplateView):
     template_name = 'post/sobre.html'
 
     # na parte inferior do arquivo
-class PostUpdateView(LoginRequiredMixin, UpdateView):
+class PostUpdateView(LoginRequiredMixin, CreateView):
     model = Post
     template_name = 'post/post_form.html'
     success_url = reverse_lazy('posts_all')
     form_class = PostModelForm
     success_message = 'Postagem salva com sucesso.'
-def get_context_data(self, **kwargs):
-    context = super(PostUpdateView, self).get_context_data(**kwargs)
-    context['form_title'] = 'Editando o post'
-    return context
+
+    def form_valid(self, form):
+        form.instance.autor = self.request.user
+        messages.success(self.request, self.success_message)
+        return super(PostCreateView, self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super(PostUpdateView, self).get_context_data(**kwargs)
+        context['form_title'] = 'Editando o post'
+        return context
 
     
 class PostDeleteView(LoginRequiredMixin, DeleteView):
