@@ -1,3 +1,12 @@
+
+import os
+from uuid import uuid4
+
+def safe_rename(instance, filename): # função para renomear o arquivo de forma segura
+    extension = filename.split('.')[-1]
+    filename = f'{uuid4().hex}.{extension}'
+    return os.path.join('images', filename)
+
 from django.db import models
 import os
 from uuid import uuid4
